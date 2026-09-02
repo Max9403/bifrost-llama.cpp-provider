@@ -8,10 +8,27 @@ import (
 	"github.com/maximhq/bifrost/core/schemas"
 )
 
-const providerPrefix = "llama-local/"
+// Plugin configuration
+var providerPrefixes []string
 
 func Init(config any) error {
 	fmt.Println("llamacpp-reasoning-effort plugin: Init called")
+
+	// Default: intercept llama-local/ models
+	providerPrefixes = []string{"llama-local/"}
+
+	if cfg, ok := config.(map[string]any); ok {
+		if prefixes, ok := cfg["provider_prefixes"].([]any); ok {
+			providerPrefixes = nil
+			for _, p := range prefixes {
+				if prefix, ok := p.(string); ok && prefix != "" {
+					providerPrefixes = append(providerPrefixes, prefix)
+				}
+			}
+		}
+	}
+
+	fmt.Printf("llamacpp-reasoning-effort plugin: intercepting models with prefixes: %v\n", providerPrefixes)
 	return nil
 }
 
@@ -40,7 +57,7 @@ func HTTPTransportPreHook(ctx *schemas.BifrostContext, req *schemas.HTTPRequest)
 
 	// Extract model name
 	model, _ := body["model"].(string)
-	if !strings.HasPrefix(model, providerPrefix) {
+	if !matchesPrefix(model) {
 		return nil, nil
 	}
 
@@ -74,7 +91,7 @@ func HTTPTransportPreHook(ctx *schemas.BifrostContext, req *schemas.HTTPRequest)
 	}
 	req.Headers["x-bf-passthrough-extra-params"] = "true"
 
-	ctx.Log(schemas.LogLevelDebug, "moved llama-local reasoning_effort into chat_template_kwargs")
+	ctx.Log(schemas.LogLevelDebug, fmt.Sprintf("moved reasoning_effort into chat_template_kwargs for model %s", model))
 
 	return nil, nil
 }
@@ -87,4 +104,13 @@ func PreLLMHook(ctx *schemas.BifrostContext, req *schemas.BifrostRequest) (*sche
 // PostLLMHook not used
 func PostLLMHook(ctx *schemas.BifrostContext, resp *schemas.BifrostResponse, bifrostErr *schemas.BifrostError) (*schemas.BifrostResponse, *schemas.BifrostError, error) {
 	return resp, bifrostErr, nil
+}
+
+func matchesPrefix(model string) bool {
+	for _, prefix := range providerPrefixes {
+		if strings.HasPrefix(model, prefix) {
+			return true
+		}
+	}
+	return false
 }

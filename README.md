@@ -4,7 +4,7 @@ A [Bifrost](https://github.com/maximhq/bifrost) plugin that provides verbatim re
 
 ## How It Works
 
-The plugin uses Bifrost's `HTTPTransportPreHook` to intercept chat completion requests before Bifrost parses them. When it detects a request for a model prefixed with `llama-local/`, it:
+The plugin uses Bifrost's `HTTPTransportPreHook` to intercept chat completion requests before Bifrost parses them. When it detects a request for a model with a configured prefix, it:
 
 1. Moves the `reasoning_effort` field from the root of the request into `chat_template_kwargs`
 2. Deletes the root-level `reasoning_effort` to prevent Bifrost from normalizing it
@@ -56,7 +56,9 @@ Add the plugin to your Bifrost configuration:
       "enabled": true,
       "placement": "pre_builtin",
       "order": 0,
-      "config": {}
+      "config": {
+        "provider_prefixes": ["llama-local/"]
+      }
     }
   ]
 }
@@ -66,7 +68,7 @@ The `pre_builtin` placement is required so the hook runs before Bifrost's built-
 
 ### 4. Use it
 
-Target your llama-server with the `llama-local/` prefix:
+Target your llama-server with a configured model prefix:
 
 ```bash
 curl http://localhost:23232/v1/chat/completions \
@@ -78,11 +80,21 @@ curl http://localhost:23232/v1/chat/completions \
   }'
 ```
 
-The plugin forwards the request to your llama-server with the `reasoning_effort` value preserved verbatim inside `chat_template_kwargs`.
+## Configuration Options
 
-## Verification
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `provider_prefixes` | array of strings | `["llama-local/"]` | List of model name prefixes to intercept. Requests for models starting with any of these prefixes will have reasoning_effort preserved verbatim. |
 
-To verify the request transformation, temporarily enable Bifrost's raw-request return and check the outgoing request body contains `chat_template_kwargs.reasoning_effort` and not a root-level `reasoning_effort`.
+Example with multiple prefixes:
+
+```json
+{
+  "config": {
+    "provider_prefixes": ["llama-local/", "ollama/", "local-models/"]
+  }
+}
+```
 
 ## Why This Approach?
 
