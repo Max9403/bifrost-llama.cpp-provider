@@ -1,0 +1,10 @@
+# Build artifacts
+build/
+*.so
+*.o
+
+# Go vendor directory
+vendor/
+
+# OS files
+.DS_Store
