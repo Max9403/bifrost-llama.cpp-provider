@@ -9,12 +9,14 @@ import (
 )
 
 // Plugin configuration
-var providerPrefixes []string
+var (
+	providerPrefixes []string
+)
 
 func Init(config any) error {
 	fmt.Println("llamacpp-reasoning-effort plugin: Init called")
 
-	// Default: intercept llama-local/ models
+	// Default to llama-local/ prefix
 	providerPrefixes = []string{"llama-local/"}
 
 	if cfg, ok := config.(map[string]any); ok {
@@ -26,6 +28,10 @@ func Init(config any) error {
 				}
 			}
 		}
+	}
+
+	if len(providerPrefixes) == 0 {
+		providerPrefixes = []string{"llama-local/"}
 	}
 
 	fmt.Printf("llamacpp-reasoning-effort plugin: intercepting models with prefixes: %v\n", providerPrefixes)
