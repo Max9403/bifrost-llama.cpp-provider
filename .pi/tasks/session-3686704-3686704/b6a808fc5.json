@@ -1,0 +1,18 @@
+{
+  "id": "b6a808fc5",
+  "name": "test-bifrost-server",
+  "command": "cd /tmp/bt-local && exec /tmp/bifrost-test/bf-local -app-dir /tmp/bt-local -port 13506 -log-level info",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-3686704-3686704/b6a808fc5.output",
+  "cwd": "/home/dark_eye/dev/personal/ai/bifrost-llama.cpp-provider",
+  "startTime": 1788143777885,
+  "endTime": 1788144073536,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 4093031,
+  "bytesWritten": 14206,
+  "isAgent": false,
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}

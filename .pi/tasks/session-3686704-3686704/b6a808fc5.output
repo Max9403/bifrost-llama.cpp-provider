@@ -1,0 +1,117 @@
+2026/08/31 04:36:17 maxprocs: Leaving GOMAXPROCS=16: CPU quota undefined
+
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   ██████╗ ██╗███████╗██████╗  ██████╗ ███████╗████████╗   ║
+║   ██╔══██╗██║██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝   ║
+║   ██████╔╝██║█████╗  ██████╔╝██║   ██║███████╗   ██║      ║
+║   ██╔══██╗██║██╔══╝  ██╔══██╗██║   ██║╚════██║   ██║      ║
+║   ██████╔╝██║██║     ██║  ██║╚██████╔╝███████║   ██║      ║
+║   ╚═════╝ ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝      ║
+║                                                           ║
+║═══════════════════════════════════════════════════════════║
+║                          v1.0.0                           ║
+║═══════════════════════════════════════════════════════════║
+║                 The Fastest LLM Gateway                   ║
+║═══════════════════════════════════════════════════════════║
+║             https://github.com/maximhq/bifrost            ║
+╚═══════════════════════════════════════════════════════════╝
+
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"loading configuration from: /tmp/bt-local/config.json"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"connecting to sqlite database"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"[configstore] no pending migrations; skipping migration run"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"config store initialized (default SQLite)"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"[logstore] pending migrations"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"[logstore] migrations already current; skipping migration lock"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"logs store initialized"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"Per-user OAuth sweep worker started (flow=1m0s, orphan=24h0m0s, retention=720h0m0s)"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"Per-user headers sweep worker started (orphan=24h0m0s, retention=720h0m0s, expired_flow=15m0s)"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"pricing sync interval set to 24h0m0s (scheduler checks every 5m0s)"}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"initializing model catalog..."}
+{"level":"info","time":"2026-08-31T04:36:17+02:00","message":"existing pricing data found in database, syncing from URL in background"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"existing model parameters found in database (11648 records), syncing from URL in background"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"existing MCP library data found in database, syncing from URL in background"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"initializing MCP catalog..."}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"log retention days: 365"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"log cleanup routine started"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"log retention cleaner initialized with 365 days retention"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"starting log cleanup: deleting logs older than 2025-08-31T02:36:18Z (retention: 365 days)"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"initializing logging writer settings: max_batch_size=1000 batch_interval=5s max_batch_bytes=314572800 write_queue_capacity=10000 deferred_usage_concurrency=5"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] GetVirtualKeys loaded 0 keys across 1 pages in 32.501µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] loadFromDatabase GetVirtualKeys loaded 0 keys in 39.622µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] loadFromDatabase rebuildInMemoryStructures took 2.02µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] loadFromDatabase total took 213.8µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"governance store initialized successfully"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] NewLocalGovernanceStore took 226.691µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] governance_startup_reset lock acquisition took 63.213µs (acquired=true)"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] PerformStartupResets in-memory reset of 0 rate limits took 1.18µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] PerformStartupResets in-memory reset of 0 budgets took 700ns"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[startup-timing] PerformStartupResets took 15.011µs"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"loading custom plugin from path /home/dark_eye/dev/personal/ai/bifrost-llama.cpp-provider/build/llamacpp.so"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"webhook dispatcher initialized"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"async job executor initialized"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[CODE MODE] Starlark code mode initialized with binding level: server, timeout: 30s"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[Bifrost MCP] tool manager initialized with tool execution timeout: 30s, max agent depth: 10, and code mode binding level: server"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"[Bifrost MCP] MCP Manager initialized"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"MCP integration initialized successfully"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"bifrost client initialized"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"listing all models and adding to model catalog"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"failed to list models with key k1: Incorrect API key provided: sk-fake. You can find your API key at https://platform.openai.com/account/api-keys."}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"unfiltered list-models failed for provider openai key k1: Incorrect API key provided: sk-fake. You can find your API key at https://platform.openai.com/account/api-keys.: falling back onto the static datasheet"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"failed to list models with key k1: Incorrect API key provided: sk-fake. You can find your API key at https://platform.openai.com/account/api-keys."}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"filtered list-models failed for provider openai key k1: Incorrect API key provided: sk-fake. You can find your API key at https://platform.openai.com/account/api-keys.: falling back onto the static datasheet"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"models added to catalog"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"temp-token sweep worker started (interval=5m0s)"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"================================================================"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"No admin account is configured for this Bifrost instance yet, and"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"no setup token is configured. Set setup_token in config.json (or"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"the BIFROST_SETUP_TOKEN environment variable) before creating the"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"first admin account — requests to create it will be rejected until"}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"a setup token is configured."}
+{"level":"warn","time":"2026-08-31T04:36:18+02:00","message":"================================================================"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"Token refresh worker started"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"background live model refresh every 1h0m0s (jittered +/-10%)"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"Time spent in Bifrost server bootstrap 363 ms"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: model-catalog-resolver - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: llamacpp-plugin - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: telemetry - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: prompts - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: logging - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: governance - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: routing - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"plugin status: compat - active"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"skills orphan cleanup completed during startup: deleted_db_blobs=0 deleted_storage_objects=0"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"successfully started bifrost, serving UI on http://localhost:13506"}
+{"level":"info","time":"2026-08-31T04:36:18+02:00","message":"MCP library sync completed: 123 entries synced from https://getbifrost.ai/mcp-library"}
+{"level":"info","time":"2026-08-31T04:36:21+02:00","message":"background startup pricing sync completed successfully"}
+{"level":"info","time":"2026-08-31T04:36:21+02:00","message":"successfully synced 11649 model parameters records"}
+{"level":"info","time":"2026-08-31T04:36:21+02:00","message":"background startup model parameters sync completed successfully"}
+{"level":"warn","http.method":"POST","http.target":"/v1/chat/completions","http.status_code":405,"http.request_duration_ms":52,"http.remote_addr":"127.0.0.1:60444","http.user_agent":"curl/8.21.0","trace_id":"7b2d823f74af42878ede935f1af664f7","request_id":"a4f1a500-b6ce-4cfa-979c-c93328acd327","time":"2026-08-31T04:39:51+02:00","message":"request completed"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"received signal terminated, initiating graceful shutdown..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"closing realtime transport sessions..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"server gracefully shutdown"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"shutting down bifrost client..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"closing all request channels..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"got context cancel(), stopping webserver"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"[Bifrost MCP] MCP cleanup completed"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"all request channels closed"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"bifrost client shutdown completed"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"cleaning up storage engines..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping log retention cleaner..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping async job cleaner..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping webhook dispatcher..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping ws ticket store..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping temp-token sweep worker..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"temp-token sweep worker stopped"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping oauth2 sweep worker..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping sidekiq dispatcher..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping live model refresher..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"stopping sidekiq runner..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"log cleanup routine stopped"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"closing websocket connection pool..."}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"Token refresh worker stopped"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"Per-user OAuth sweep worker stopped"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"Per-user headers credential sweep worker stopped"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"storage engines cleanup completed"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"cleanup completed"}
+{"level":"info","time":"2026-08-31T04:41:13+02:00","message":"🏁 server stopped"}

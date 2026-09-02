@@ -1,0 +1,18 @@
+{
+  "id": "b677767aa",
+  "name": "test-bifrost-e2e",
+  "command": "cd /tmp/bt-local && exec /tmp/bifrost-test/bf-local -app-dir /tmp/bt-local -port 13506 -log-level info",
+  "status": "killed",
+  "outputPath": ".pi/tasks/session-3686704-3686704/b677767aa.output",
+  "cwd": "/home/dark_eye/dev/personal/ai/bifrost-llama.cpp-provider",
+  "startTime": 1788144163067,
+  "endTime": 1788144253494,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 4126165,
+  "bytesWritten": 14209,
+  "isAgent": false,
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}
