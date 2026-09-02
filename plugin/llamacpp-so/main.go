@@ -1,127 +1,90 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"strings"
 
-	"github.com/dark-eye/bifrost-llama.cpp-provider/provider/llamacpp"
 	"github.com/maximhq/bifrost/core/schemas"
 )
 
-var (
-	providerInstance *llamacpp.LLamaCppProvider
-	providerKey      = schemas.ModelProvider("llamacpp")
-)
+const providerPrefix = "llama-local/"
 
 func Init(config any) error {
-	fmt.Println("llamacpp plugin: Init called")
-
-	providerKey = schemas.ModelProvider("llamacpp")
-	baseURL := "http://127.0.0.1:8080"
-
-	if cfg, ok := config.(map[string]any); ok {
-		if pk, ok := cfg["provider_key"].(string); ok && pk != "" {
-			providerKey = schemas.ModelProvider(pk)
-		}
-		if bu, ok := cfg["base_url"].(string); ok && bu != "" {
-			baseURL = bu
-		}
-	}
-
-	providerConfig := &schemas.ProviderConfig{
-		NetworkConfig: schemas.NetworkConfig{
-			BaseURL: baseURL,
-		},
-	}
-
-	var err error
-	providerInstance, err = llamacpp.NewLLamaCppProvider(providerConfig, nil)
-	if err != nil {
-		return fmt.Errorf("llamacpp plugin: failed to create provider: %w", err)
-	}
-
-	fmt.Printf("llamacpp plugin: initialized with base_url=%s\n", baseURL)
+	fmt.Println("llamacpp-reasoning-effort plugin: Init called")
 	return nil
 }
 
 func GetName() string {
-	return "llamacpp-plugin"
+	return "llamacpp-reasoning-effort"
 }
 
 func Cleanup() error {
-	fmt.Println("llamacpp plugin: Cleanup called")
+	fmt.Println("llamacpp-reasoning-effort plugin: Cleanup called")
 	return nil
 }
 
-func PreRequestHook(ctx *schemas.BifrostContext, req *schemas.BifrostRequest) error {
-	provider, _, _ := req.GetRequestFields()
-	if provider != providerKey {
-		return nil
+// HTTPTransportPreHook intercepts requests BEFORE Bifrost parses them,
+// moving reasoning_effort into chat_template_kwargs to prevent normalization.
+func HTTPTransportPreHook(ctx *schemas.BifrostContext, req *schemas.HTTPRequest) (*schemas.HTTPResponse, error) {
+	// Only intercept chat completion endpoints
+	if req.Path != "/v1/chat/completions" && req.Path != "/openai/chat/completions" {
+		return nil, nil
 	}
-	return nil
+
+	// Parse request body
+	var body map[string]interface{}
+	if err := json.Unmarshal(req.Body, &body); err != nil {
+		return nil, nil
+	}
+
+	// Extract model name
+	model, _ := body["model"].(string)
+	if !strings.HasPrefix(model, providerPrefix) {
+		return nil, nil
+	}
+
+	// Extract reasoning_effort
+	effort, ok := body["reasoning_effort"].(string)
+	if !ok || effort == "" {
+		return nil, nil
+	}
+
+	// Move into chat_template_kwargs
+	templateKwargs, ok := body["chat_template_kwargs"].(map[string]interface{})
+	if !ok {
+		templateKwargs = make(map[string]interface{})
+	}
+	templateKwargs["reasoning_effort"] = effort
+	body["chat_template_kwargs"] = templateKwargs
+
+	// Delete root-level reasoning_effort to prevent normalization
+	delete(body, "reasoning_effort")
+
+	// Re-serialize
+	newBody, err := json.Marshal(body)
+	if err != nil {
+		return nil, nil
+	}
+	req.Body = newBody
+
+	// Enable passthrough of provider-specific fields
+	if req.Headers == nil {
+		req.Headers = make(map[string]string)
+	}
+	req.Headers["x-bf-passthrough-extra-params"] = "true"
+
+	ctx.Log(schemas.LogLevelDebug, "moved llama-local reasoning_effort into chat_template_kwargs")
+
+	return nil, nil
 }
 
+// PreLLMHook not used (we handle everything at HTTP transport level)
 func PreLLMHook(ctx *schemas.BifrostContext, req *schemas.BifrostRequest) (*schemas.BifrostRequest, *schemas.LLMPluginShortCircuit, error) {
-	provider, model, _ := req.GetRequestFields()
-
-	if provider != providerKey {
-		return req, nil, nil
-	}
-
-	if req.RequestType != schemas.ChatCompletionRequest &&
-		req.RequestType != schemas.ChatCompletionStreamRequest {
-		return req, nil, nil
-	}
-
-	if providerInstance == nil {
-		return req, &schemas.LLMPluginShortCircuit{
-			Error: &schemas.BifrostError{
-				Error: &schemas.ErrorField{
-					Message: "llamacpp provider not initialized",
-				},
-			},
-		}, nil
-	}
-
-	chatReq := &schemas.BifrostChatRequest{
-		Model:  model,
-		Input:  req.ChatRequest.Input,
-		Params: req.ChatRequest.Params,
-	}
-
-	key := schemas.Key{
-		ID:    "llamacpp-plugin",
-		Name:  "llamacpp-plugin",
-		Value: *schemas.NewSecretVar(""),
-	}
-
-	chatResp, chatErr := providerInstance.ChatCompletion(ctx, key, chatReq)
-
-	if chatErr != nil {
-		var message string
-		if chatErr.Error != nil {
-			message = chatErr.Error.Message
-		} else {
-			message = "llamacpp provider error"
-		}
-
-		return req, &schemas.LLMPluginShortCircuit{
-			Error: &schemas.BifrostError{
-				Error: &schemas.ErrorField{
-					Message: message,
-				},
-			},
-		}, nil
-	}
-
-	bifrostResp := &schemas.BifrostResponse{
-		ChatResponse: chatResp,
-	}
-
-	return req, &schemas.LLMPluginShortCircuit{
-		Response: bifrostResp,
-	}, nil
+	return req, nil, nil
 }
 
-func PostLLMHook(ctx *schemas.BifrostContext, result *schemas.BifrostResponse, err *schemas.BifrostError) (*schemas.BifrostResponse, *schemas.BifrostError, error) {
-	return result, err, nil
+// PostLLMHook not used
+func PostLLMHook(ctx *schemas.BifrostContext, resp *schemas.BifrostResponse, bifrostErr *schemas.BifrostError) (*schemas.BifrostResponse, *schemas.BifrostError, error) {
+	return resp, bifrostErr, nil
 }
